@@ -40,6 +40,7 @@ spec:
     triggerLoopOnEvent: true
     policy: sync
     sources: ["crd", "gateway-httproute"]
+    namespaceFilters: ["default", "network"]
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters: ["${SECRET_DOMAIN}"]

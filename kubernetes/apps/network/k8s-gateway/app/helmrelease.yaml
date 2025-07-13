@@ -40,4 +40,8 @@ spec:
       annotations:
         lbipam.cilium.io/ips: "192.168.69.163"
       externalTrafficPolicy: Cluster
-    watchedResources: ["HTTPRoute", "Service"]
+    watchedResources:
+      - Group: gateway.networking.k8s.io
+        Kind: HTTPRoute
+      - Group: ""
+        Kind: Service
