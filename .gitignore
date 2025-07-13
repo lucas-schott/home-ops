@@ -10,6 +10,8 @@
 # Template config files
 /cluster.yaml
 /nodes.yaml
+/worker.yaml
+/controlplane.yaml
 # Kubernetes
 kubeconfig
 talosconfig
