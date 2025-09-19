@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 1h
   chartRef:
-    kind: OCIRepository
+    kind: HelmRepository
     name: cowboysysop
     version: 6.0.0
     chart: whoami
@@ -28,9 +28,6 @@ spec:
         strategy: RollingUpdate
         containers:
           app:
-            image:
-              repository: ghcr.io/cowboysysop/charts/whoami
-              tag: latest
             env:
               PORT: &port 80
             probes:
