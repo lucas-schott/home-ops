@@ -15,7 +15,7 @@ spec:
   upgrade:
     remediation:
       retries: 3
-      cleanupOnFail: true
+    cleanupOnFail: true
   values:
     controllers:
       whoami:
