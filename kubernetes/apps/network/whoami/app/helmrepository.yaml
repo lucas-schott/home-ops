@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: OCIRepository
 metadata:
   name: whoami-oci
-  namespace: flux-system
+  namespace: network
 spec:
   interval: 1h
-  url: https://cowboysysop.github.io/charts/
+  url: oci://ghcr.io/cowboysysop/charts/whoami
