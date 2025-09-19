@@ -10,7 +10,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 1h
-  path: ./kubernetes/apps/network/whoami
+  path: ./kubernetes/apps/network/whoami/app
   prune: true
   sourceRef:
     kind: GitRepository
