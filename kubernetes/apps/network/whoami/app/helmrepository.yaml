@@ -1,9 +1,9 @@
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
+kind: HelmRepository
 metadata:
-  name: whoami-oci
+  name: cowboysysop
   namespace: network
 spec:
   interval: 1h
-  url: oci://ghcr.io/cowboysysop/charts/whoami
+  url: https://cowboysysop.github.io/charts/
