@@ -10,8 +10,8 @@ spec:
   chartRef:
     kind: HelmRepository
     name: cowboysysop
-    version: 6.0.0
     chart: whoami
+    version: 6.0.0
   install:
     remediation:
       retries: -1
@@ -19,62 +19,9 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  dependsOn:
-    - name: cloudflare-tunnel
-      namespace: network
   values:
-    controllers:
-      whoami:
-        strategy: RollingUpdate
-        containers:
-          app:
-            env:
-              PORT: &port 80
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 64Mi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
     service:
-      app:
-        ports:
-          http:
-            port: *port
-    route:
-      app:
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
-        parentRefs:
-          - name: external
-            namespace: kube-system
-            sectionName: https
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
-    gateway:
-      app:
-        name: whoami
-        annotations:
-          kubernetes.io/ingress.class: cilium
+      port: 80
+    image:
+      repository: containous/whoami
+      tag: 1.6.0
