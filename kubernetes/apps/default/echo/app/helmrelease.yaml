@@ -3,13 +3,12 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: whoami
-  namespace: network
+  name: echo
 spec:
   interval: 1h
   chartRef:
     kind: OCIRepository
-    name: whoami-oci
+    name: app-template
   install:
     remediation:
       retries: -1
@@ -22,22 +21,25 @@ spec:
       namespace: network
   values:
     controllers:
-      whoami:
+      echo:
         strategy: RollingUpdate
         containers:
           app:
             image:
-              repository: ghcr.io/cowboysysop/charts/whoami
-              tag: latest
+              repository: ghcr.io/mendhak/http-https-echo
+              tag: 37
             env:
-              PORT: &port 80
+              HTTP_PORT: &port 80
+              LOG_WITHOUT_NEWLINE: true
+              LOG_IGNORE_PATH: /healthz
+              PROMETHEUS_ENABLED: true
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /
+                    path: /healthz
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -63,6 +65,10 @@ spec:
         ports:
           http:
             port: *port
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http
     route:
       app:
         hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
